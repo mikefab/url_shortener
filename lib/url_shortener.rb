@@ -58,6 +58,7 @@ class UrlShortener
     short = POS_HASH[descriptor_pos] == 0 ? "#{Rails.cache.read('lead_number')}-#{descriptor}-#{noun}" : "#{Rails.cache.read('lead_number')}-#{noun}-#{descriptor}" 
   end
   
+  #Determins the current state and then fetches an array of descriptors and an array of nouns that match the state 
   def self.get_state_options(descriptor, noun)
     #First assign the last state to state variable based on words from last url in db
     state = "#{descriptor.length}-#{noun.length}"
@@ -73,6 +74,7 @@ class UrlShortener
     return descriptor_options, noun_options
   end
   
+  #Called by state options after the correct state is determined 
   def self.return_words_array(descriptor_length, noun_length)
     descriptors = Array.new
     nouns       = Array.new
@@ -83,13 +85,13 @@ class UrlShortener
     Word.where("span = #{noun_length} and pos = 'n'").order(:word).each.map{|w| nouns << w.word }
     return descriptors, nouns
   end
-  
+  #Called by get_state_options when it determines that a state has expired
   def self.get_next_state state
     #If the current state is the last state, then return to first state and tick lead number up, otherwise return next state
     return next_state = STATES.last == state ? return_first_state_and_increment_lead_number : STATES[STATES.index(state)+1]
   end
 
-  #This function is called after the last state is reached. The lead number is incremented and the first state starts again
+  #Called after the last state is reached. The lead number is incremented and the first state starts again
   def self.return_first_state_and_increment_lead_number
     Rails.cache.clear #Clear cache when incrementing lead number so that infinitive is used instead of third person tense
     last_lead_number = Url.last.short.match(/^\d+/).to_s.to_i + 1
