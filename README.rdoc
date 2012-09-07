@@ -1,0 +1,33 @@
+This is a url shortener
+
+Each short url has a counter, a descriptor (adjective or verb), and a noun. A state machine architecture ensures that urls begin as small as possible, i.e three letter descriptors with three letter nouns in all combinations before iterating through all combinations of four letter descriptors with three letter nouns, then all four letter nouns with three letter nouns etc.
+
+When the descriptor is a verb, the order of descriptors and nouns depends on the tense. For instance, gerunds precede nouns while participles and third person tenses follow nouns. When the counter increments past one, third person is replaced by infinitive: 1-dog-eats / 2-dogs-eat
+
+Words have a maximum length of five characters and are pulled from a database.  About 1.6M short urls are generated before the counter ticks to two.
+
+If a user mistypes a 0 for the letter O or vice-versa, the error is corrected. 
+
+I did not tend to elimination of orthographic neighbors.
+
+I added rspec tests to make sure that states were rotating properly and that the digits incremented after finishing the last state.  
+
+
+Sample short url codes by state:
+(the first digit is descriptor length, the second is noun length. States are defined in application.rb)
+
+state 3-3 
+1-coy-act
+1-dry-ape
+
+4-3
+1-cat-wins
+
+3-4
+1-dry-abode
+
+4-4
+1-fake-dawn
+
+5-5
+1-abode-abets
