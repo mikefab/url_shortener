@@ -8,10 +8,9 @@ Words have a maximum length of five characters and are pulled from a database.  
 
 If a user mistypes a 0 for the letter O or vice-versa, the error is corrected. 
 
-I did not tend to elimination of orthographic neighbors.
-
 I added rspec tests to make sure that states were rotating properly and that the digits incremented after finishing the last state.  
 
+The bulk of the code is in lib/url_shortener.rb, spec/url_spec.rb, and application.rb.
 
 Sample short url codes by state:
 (the first digit is descriptor length, the second is noun length. States are defined in application.rb)
